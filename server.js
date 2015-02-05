@@ -10,7 +10,7 @@ util.inherits(MongoClient, EventEmitter);
 
 var feedparser = new FeedParser([]);
 var mongoUrl = 'mongodb://localhost:27017/concierge';
-var teatro_breton = 'http://www.teatrobreton.org/rss_eventos.asp';
+var linkList = [ 'http://www.teatrobreton.org/rss_eventos.asp' ];
 
 feedparser.on('error', function(error) {
   console.log('Feedparser BANG!');
@@ -66,10 +66,10 @@ feed.on('response', function(res) {
 });
 */
 
-MongoClient.prototype.on('connect', function(db) {
+MongoClient.prototype.on('connect', function(db, linkList) {
   console.log('connected');
   MongoClient.prototype.db = db;
-  var feed = request(teatro_breton);
+  var feed = request(linkList[0]);
   feed.on('error', function(error) {
     console.log('Bang!');
     process.exit(0);
@@ -85,12 +85,19 @@ MongoClient.prototype.on('connect', function(db) {
 
 MongoClient.prototype.on('newMeta', function(metaData) {
   if(MongoClient.prototype.db) {
-    console.log('Creating a new meta');
     var siteDoc = MongoClient.prototype.db.collection('site');
-    siteDoc.insert(metaData, function(err, res) {
+
+    // If the metadata already exists, do not insert it another time!
+    siteDoc.count(metaData, function(err, count) {
       assert.equal(err, null);
-      assert.equal(1, res.result.n);
-      MongoClient.prototype.emit('close');
+      if(count == 0) {
+        siteDoc.insert(metaData, function(err, res) {
+          console.log(metaData._id);
+          assert.equal(err, null);
+          assert.equal(1, res.result.n);
+          MongoClient.prototype.emit('close');
+        });
+      }
     });
   } else {
     return this.emit('error', new Error('The fucking database is not set, vole.'));
@@ -119,5 +126,5 @@ MongoClient.prototype.on('close', function() {
 
 MongoClient.connect(mongoUrl, function(error, db) {
   assert.equal(null, error);
-  MongoClient.prototype.emit('connect', db);
+  MongoClient.prototype.emit('connect', db, linkList);
 });
