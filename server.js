@@ -29,6 +29,7 @@ feedparser.on('meta', function() {
     , link: meta['link']
   };
   console.log(JSON.stringify(metaData));
+  MongoClient.prototype.emit('newMeta', metaData);
 });
 
 /*
@@ -82,6 +83,20 @@ MongoClient.prototype.on('connect', function(db) {
   });
 });
 
+MongoClient.prototype.on('newMeta', function(metaData) {
+  if(MongoClient.prototype.db) {
+    console.log('Creating a new meta');
+    var siteDoc = MongoClient.prototype.db.collection('site');
+    siteDoc.insert(metaData, function(err, res) {
+      assert.equal(err, null);
+      assert.equal(1, res.result.n);
+      MongoClient.prototype.emit('close');
+    });
+  } else {
+    return this.emit('error', new Error('The fucking database is not set, vole.'));
+  }
+});
+
 /*
 MongoClient.prototype.on('newFeed', function(data) {
   if(MongoClient.prototype.db) {
@@ -93,6 +108,7 @@ MongoClient.prototype.on('newFeed', function(data) {
     });
   }
 });
+*/
 
 MongoClient.prototype.on('close', function() {
   console.log('closing');
@@ -105,4 +121,3 @@ MongoClient.connect(mongoUrl, function(error, db) {
   assert.equal(null, error);
   MongoClient.prototype.emit('connect', db);
 });
-*/
