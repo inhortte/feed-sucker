@@ -17,6 +17,7 @@
     "mongodb": "~2.0",
     "feedparser": "*",
     "request": "*",
-    "ramda": "*"
+    "ramda": "*",
+    "async": "*"
   }
 }

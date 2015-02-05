@@ -8,7 +8,7 @@ var assert       = require('assert');
 var MongoClient  = require('mongodb').MongoClient;
 
 var replServer = repl.start({
-  prompt: "feed_sucker > ",
+  prompt: "feed_sucker > "
 });
 
 util.inherits(MongoClient, EventEmitter);

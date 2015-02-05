@@ -1,6 +1,7 @@
 var R            = require('ramda');
 var EventEmitter = require('events').EventEmitter;
 var util         = require('util');
+var async        = require('async');
 var FeedParser   = require('feedparser');
 var request      = require('request');
 var assert       = require('assert');
@@ -10,7 +11,8 @@ util.inherits(MongoClient, EventEmitter);
 
 var feedparser = new FeedParser([]);
 var mongoUrl = 'mongodb://localhost:27017/concierge';
-var linkList = [ 'http://www.teatrobreton.org/rss_eventos.asp' ];
+var linkList = [ 'http://www.teatrobreton.org/rss_eventos.asp',
+                 'http://www.teatrobreton.org/rss_noticias.asp' ];
 
 feedparser.on('error', function(error) {
   console.log('Feedparser BANG!');
@@ -69,17 +71,27 @@ feed.on('response', function(res) {
 MongoClient.prototype.on('connect', function(db, linkList) {
   console.log('connected');
   MongoClient.prototype.db = db;
-  var feed = request(linkList[0]);
-  feed.on('error', function(error) {
-    console.log('Bang!');
-    process.exit(0);
-  });
-  feed.on('response', function(res) {
-    var stream = this;
-    if(res.statusCode != 200) {
-      return this.emit('error', new Error('Evil status code -> ' + res.statusCode));
+
+  // This needs to be fully asynchronous eventually. I'm not sure now, but this may have to be a server accepting links.
+  async.eachSeries(linkList, function(link, cb) {
+    var feed = request(link);
+    feed.on('error', function(error) {
+      console.log('Bang!');
+      process.exit(0);
+    });
+    feed.on('response', function(res) {
+      var stream = this;
+      if(res.statusCode != 200) {
+        return this.emit('error', new Error('Evil status code -> ' + res.statusCode));
+      }
+      stream.pipe(feedparser);
+    });
+    cb();
+  }, function(err) {
+    if(err) {
+      return this.emit('error', new Error('Async final callback failed - or something'));
     }
-    stream.pipe(feedparser);
+    // MongoClient.prototype.emit('close');
   });
 });
 
@@ -95,7 +107,6 @@ MongoClient.prototype.on('newMeta', function(metaData) {
           console.log(metaData._id);
           assert.equal(err, null);
           assert.equal(1, res.result.n);
-          MongoClient.prototype.emit('close');
         });
       }
     });
