@@ -1,0 +1,22 @@
+{
+  "name": "feed-sucker",
+  "version": "0.0.1",
+  "description": "A mustelid is in your trousers",
+  "author": "Bobbus Mustelidus",
+  "contributors": [{
+  "name": "Bobbus Mustelidus",
+  "email": "inhortte@gmail.com"
+  }],
+  "main": "lib/.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/inhortte/feed-sucker.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "mongodb": "~2.0",
+    "feedparser": "*",
+    "request": "*",
+    "ramda": "*"
+  }
+}
