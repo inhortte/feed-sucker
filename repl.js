@@ -11,6 +11,8 @@ var replServer = repl.start({
   prompt: "feed_sucker > ",
 });
 
+util.inherits(MongoClient, EventEmitter);
+
 replServer.context.repl = repl;
 replServer.context.R = R;
 replServer.context.feedparser = new FeedParser([]);
