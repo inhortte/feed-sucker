@@ -1,0 +1,27 @@
+{
+  "type" : "rss",
+  "version" : "2.0",
+  "title" : "Programaci�n Teatro Breton",
+  "description" : "Teatro Breton de los Herreros en Logro�o",
+  "link" : "http://www.teatrobreton.org/programacion.asp",
+  "language" : "es-ES",
+  "feedLink" : "http://www.teatrobreton.org/rss_eventos.asp",
+  "feedFields" : {
+    "title" : "title",
+    "description" : "description",
+    "summary" : "summary",
+    "date" : "date",
+    "pubdate" : "pubdate",
+    "pubDate" : "pubDate",
+    "link" : "link",
+    "guid" : "guid",
+    "author" : "author",
+    "comments" : "comments",
+    "origlink" : "origlink",
+    "image" : "image",
+    "source" : "source",
+    "categories" : "categories",
+    "enclosures" : "enclosures"
+  },
+  "_id" : ObjectId("54d4da39cb58d6a22c777741")
+}
