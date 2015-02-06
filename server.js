@@ -72,139 +72,79 @@ function fetchFeed(feedLink, cb) {
   });
 }
 
-async.foldl(linkList, [], function(memo, feedLink, cb) {
-  fetchFeed(feedLink, function(metaData) {
-    memo.push(metaData);
-    cb(null, memo);
-  });
-}, function(err, feedLinks) {
-  var uniq = R.uniqWith(function(a, b) {
-    return a['feedLink'] === b['feedLink'];
-  }, feedLinks);
-  console.log(JSON.stringify(uniq));
-});
+// ---------------------------------------------
+// Introducing the site collection
+// La metadata de cada sitio está poniendo aquí.
+// ---------------------------------------------
+var newMeta = function(metaData) {
+  if(MongoClient.prototype.db) {
+    var siteDoc = MongoClient.prototype.db.collection('site');
 
-/*
-var feed = request(feedLink);
-feed.on('error', function(error) {
-  console.log('Bang!');
-  process.exit(0);
-});
-feed.on('response', function(res) {
-  var stream = this;
-  if(res.statusCode != 200) {
-    return this.emit('error', new Error('Evil status code -> ' + res.statusCode));
-  }
-  stream.pipe(feedparser);
-});
-*/
-
-
-/*
-var newMeta = function(db, metaData) {
-  if(db) {
-    var siteDoc = db.collection('site');
-
-    // If the metadata already exists, do not insert it another time!
-    siteDoc.count({feedLink: metaData['feedLink']}, function(err, count) {
-      assert.equal(err, null);
-      console.log('count is ' + count);
-      if(count == 0) {
-        console.log('about to insert.');
-        siteDoc.insert(metaData, function(err, res) {
-          console.log(metaData._id);
-          assert.equal(err, null);
-          assert.equal(1, res.result.n);
-        });
+    siteDoc.insert(metaData, function(err, res) {
+      console.log(metaData._id);
+      if(err) {
+        console.log('The connection is probably closed.');
       }
+      // assert.equal(err, null);
+      // assert.equal(1, res.result.n);
     });
   } else {
     return this.emit('error', new Error('The fucking database is not set, vole.'));
   }
 }
 
-MongoClient.prototype.on('newMeta', newMeta);
+// -----------------------------------------------------
+// Introducing the connection
+// Cuando hagamos la conexión, entonces hagamos un ciclo
+// a traves las metadatas, llamando a newMeta cada vez.
+// -----------------------------------------------------
+var mongoConnected = function(feedMetas) {
+  console.log('mongo connected');
 
-// MongoClient.prototype.on('connect', function(db, linkList) {
-var connect = function(db, linkList) {
-  console.log('connected');
-  MongoClient.prototype.db = db;
-
-  // This needs to be fully asynchronous eventually. I'm not sure now, but this may have to be a server accepting links.
-  async.eachSeries(linkList, function(feedLink, cb) {
-    var feedparser = new FeedParser([]);
-    feedparser.on('error', function(error) {
-      console.log('Feedparser BANG! ' + error);
-      process.exit(0);
-    });
-    feedparser.on('meta', function() {
-      var stream = this
-      , meta = this.meta;
-
-      var metaData = {
-        type: meta['#type']
-        , version: meta['#version']
-        , title: meta['title']
-        , description: meta['description']
-        , link: meta['link']
-        , feedLink: feedLink
-      };
-      console.log(JSON.stringify(metaData));
-      // MongoClient.prototype.emit('newMeta', metaData); // no funciona.
-      newMeta(db, metaData);
-    });
-
-     var feed = request(feedLink);
-    feed.on('error', function(error) {
-      console.log('Bang!');
-      process.exit(0);
-    });
-    feed.on('response', function(res) {
-      var stream = this;
-      if(res.statusCode != 200) {
-        return this.emit('error', new Error('Evil status code -> ' + res.statusCode));
-      }
-      stream.pipe(feedparser);
-    });
-     cb();
+  async.each(feedMetas, function(metaData, cb) {
+    MongoClient.prototype.emit('newMeta', metaData); // no funciona.
+    cb();
   }, function(err) {
     if(err) {
       return this.emit('error', new Error('Async final callback failed - or something'));
     }
-    // MongoClient.prototype.emit('close');
+    // note - An error occurs because of the close, though all of the entries
+    // are already written to mongo. This is a current mystery.
+    MongoClient.prototype.emit('close');
   });
 };
 
-MongoClient.prototype.on('newFeed', function(data) {
-  if(MongoClient.prototype.db) {
-    console.log('Creating a new feed');
-    var feedColl = MongoClient.prototype.db.collection('feed');
-    feedColl.insert(data, function(err, result) {
-      assert.equal(err, null);
-      assert.equal(1, result.result.n);
-    });
-  }
-});
-
-MongoClient.prototype.on('close', function() {
-  console.log('closing');
+var mongoClose = function() {
+  console.log('closing mongo');
   if(MongoClient.prototype.db) {
     MongoClient.prototype.db.close();
   }
-});
+};
 
-async.waterfall([
-  function(cb) {
-    MongoClient.connect(mongoUrl, function(error, db) {
-      assert.equal(null, error);
-//      MongoClient.prototype.emit('connect', db, linkList);
-      cb(null, db);
-    });
-  }, function(db, cb) {
-    connect(db, linkList);
-    cb(null, db);
-  }
-], function(err, db) {
-//  db.close();
+// -------------------------------------------------
+// El ciclo principal - bueno, un fold, actualmente,
+// porque rehuso a utilizar 'ciclos' en mis codigos.
+// Al principal, los feeds está leyendo y procesado.
+// Entonces, damos los resultos a mongodb.
+// -------------------------------------------------
+async.foldl(linkList, [], function(memo, feedLink, cb) {
+  fetchFeed(feedLink, function(metaData) {
+    memo.push(metaData);
+    cb(null, memo);
+  });
+}, function(err, feedMetas) {
+  var uniq = R.uniqWith(function(a, b) {
+    return a['feedLink'] === b['feedLink'];
+  }, feedMetas);
+  console.log(JSON.stringify(uniq));
+
+  MongoClient.connect(mongoUrl, function(err, db) {
+    assert.equal(null, err);
+    MongoClient.prototype.db = db;
+    MongoClient.prototype.on('connect', mongoConnected);
+    MongoClient.prototype.on('newMeta', newMeta);
+    MongoClient.prototype.on('close', mongoClose);
+
+    MongoClient.prototype.emit('connect', uniq);
+  });
 });
-*/
