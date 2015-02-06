@@ -5,7 +5,8 @@ var util         = require('util');
 var FeedParser   = require('feedparser');
 var request      = require('request');
 var assert       = require('assert');
-var MongoClient  = require('mongodb').MongoClient;
+var MongoClient = require('mongodb').MongoClient;
+var Readable    = require('stream').Readable;
 
 var replServer = repl.start({
   prompt: "feed_sucker > "
