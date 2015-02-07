@@ -1,8 +1,13 @@
 module.exports = function(grunt) {
   grunt.initConfig({
-//    nodeunit: {
-//      files: ['test/**/*_test.js'],
-//    },
+    execute: {
+      meta_feeds: {
+        src: 'lib/meta_feeds.js'
+      },
+      feeds: {
+        src: 'lib/feeds.js'
+      }
+    },
     jshint: {
       options: {
         jshintrc: '.jshintrc'
@@ -29,14 +34,19 @@ module.exports = function(grunt) {
       test: {
         files: '<%= jshint.test.src %>',
         tasks: ['jshint:test']
-      },
-    },
+      }
+    }
   });
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-execute');
 
-  // Default task.
-  grunt.registerTask('default', ['jshint']);
+  grunt.loadTasks('tasks');
+  grunt.registerTask('sites', ['execute:meta_feeds']);
+  grunt.registerTask('meta', ['execute:meta_feeds']);
+  grunt.registerTask('feeds', ['execute:feeds']);
+  grunt.registerTask('test', ['jshint']);
+  grunt.registerTask('default', ['test']);
 };
