@@ -1,20 +1,33 @@
 {
-  title: '&#8243;NE M&#8242;OUBLIE PAS / FORGET ME NOT&#8243;',
-  description: '<strong>Fecha inicio:</strong> 08/02/2015<br /><strong>Fecha fin:</strong> 08/02/2015<br /><strong>Lugar:</strong> Teatro Bret&oacute;n <br /><strong>Hora comienzo:</strong> D�a 8 de febrero 19:30h.<br />Vengan bien despiertos, pero prepa&#769;rense para rodar escaleras abajo por la imaginacio&#769;n del veterano creador france&#769;s Philippe Genty y de su mujer y core�grafa, Mary Underwood que con <b>NE M�OUBLIE PAS / FORGET ME NOT </b>(No me olvides) plantean una inusual coreograf�a, en la que se confunden actores, bailarines y marionetas/maniqu�es.<br /><p>La compa��a francesa Philippe Genty estren� <b>NE M&#8242;OUBLIE PAS</b>, uno de sus espect�culos m�s bellos y sugerentes, en el Teatro de la Ville de Par�s en 1992.  Desde entonces, no ha parado de representarse y ha llegado a multitud de escenarios en los m�s rec�nditos rincones del mundo presentando sus propuestas de un marcado  car�cter visual.<br>Para esta recreaci�n, Philippe Genty y Mary Underwood emprendieron un intenso trabajo de reescritura y se rodearon de nueve actores de la escuela de teatro gestual de Verdal en Noruega. Nos ofrece aqu� una odisea visual en la que actores y marionetas de tama�o humano se confunden y se mezclan, en los magn�ficos entornos n�rdicos.<br>Artista asociado con la MCNN desde hace once a�os, Philippe Genty nos encanta, nos trastorna, nos empuja a cada una de sus creaciones y <b>NE M&#8242;OUBLIE PAS</b>  No es la excepci�n de la regla.</p>',
-  summary: null,
-  date: null,
-  pubdate: null,
-  pubDate: null,
-  link: 'http://www.teatrobreton.org/evento.asp?evento=474',
-  guid: 'http://www.teatrobreton.org/evento.asp?evento=474',
-  author: null,
-  comments: null,
-  origlink: null,
-  image: {},
-  source: {},
-  categories: [],
-  enclosures:
-   [ { url: 'http://www.teatrobreton.org/images/eventos/evento_474.jpg',
-       type: 'image/jpeg',
-       length: null } ]
+  "title" : "THE HOLE",
+  "description" : "<strong>Fecha inicio:</strong> 10/06/2015<br /><strong>Fecha fin:</strong> 14/06/2015<br /><strong>Lugar:</strong> Teatro Bret&oacute;n <br /><strong>Hora comienzo:</strong> D�a 10 de junio 20:30h.<br>D�a 11 de junio 20:30h.<br>D�a 12 de junio 19:30h y 22:30h.<br>D�a 13 de junio 19:30h y 22:30h.<br>D�a 14 de junio 18:00h.<br />En <b>THE HOLE</b> se dan cita m�sica, n�meros circenses, picaresca, canalleo,  sugerentes stripteases, sensualidad y humor. <br /><p>�<em><b>THE HOLE</b> te transporta a otros mundos, como un Cirque du Soleil, pero m�s divertido, obsceno y procaz, un circo de cabaret terriblemente sexy. [�] �Que qu� pienso de <b>THE HOLE</b>? �Qu� se puede pensar de una obra de teatro musical, con n�meros de acrobacia a la que vuelves cuatro veces? Una maravilla.� </em></p>\r\n<p style=\"text-align:right\">�lex de la Iglesia para El Pa�s</p><br>\r\n<p>�Sorprende desde el principio por los contenidos, pero tambi�n por la puesta en escena: al levantarse el tel�n, una espectacular escenograf�a, realizada por Miguel Brayda, eclipsa al espectador.� </p>\r\n<p style=\"text-align:right\">ABC Galicia</p>",
+  "summary" : null,
+  "date" : null,
+  "pubdate" : null,
+  "pubDate" : null,
+  "link" : "http://www.teatrobreton.org/evento.asp?evento=511",
+  "guid" : "http://www.teatrobreton.org/evento.asp?evento=511",
+  "author" : null,
+  "comments" : null,
+  "origlink" : null,
+  "image" : {
+
+  },
+  "source" : {
+
+  },
+  "categories" : [ ],
+  "enclosures" : [
+    {
+      "url" : "http://www.teatrobreton.org/images/eventos/evento_511.jpg",
+      "type" : "image/jpeg",
+      "length" : null
+    }
+  ],
+  "feedMeta" : ObjectId("54d4da39cb58d6a22c777741"),
+  "feedLink" : "http://www.teatrobreton.org/rss_eventos.asp",
+  "_id" : ObjectId("54d53fedddae759841808287")
 }
+
+// retrieve the feedMeta in the site collection. (yup == the above doc)
+db.site.findOne({_id: yup.feedMeta})

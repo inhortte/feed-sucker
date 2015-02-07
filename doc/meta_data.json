@@ -25,3 +25,6 @@
   },
   "_id" : ObjectId("54d4da39cb58d6a22c777741")
 }
+
+// How many entries are in this site (feed)? (juicy is the site doc above)
+db.feed.count({feedMeta: juicy._id})

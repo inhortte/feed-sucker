@@ -1,20 +1,33 @@
 {
-  title: 'Esta ma�ana se ha presentado la nueva campa�a escolar de teatro EL BRET�N CON LA ESCUELA. (19 Edici�n), prevista para los meses de febrero, marzo y abril.',
-  description: '<strong>Fecha:</strong> 05/02/2015<br /><br />La concejal de Comercio, Cultura y Turismo, Pilar Montes, junto al director del teatro, Jorge Quirante, han presentado la nueva edici�n de la ya habitual Campa�a Escolar  � EL BRET�N CON LA ESCUELA�   prevista para los meses de febrero, marzo y abril  y dirigida a escolares de  (4 a 12 a�os), a trav�s de sus centros escolares.<br />',
-  summary: null,
-  date: null,
-  pubdate: null,
-  pubDate: null,
-  link: 'http://www.teatrobreton.org/ver_noticia.asp?noticia=104',
-  guid: 'http://www.teatrobreton.org/ver_noticia.asp?noticia=104',
-  author: null,
-  comments: null,
-  origlink: null,
-  image: {},
-  source: {},
-  categories: [],
-  enclosures:
-   [ { url: 'http://www.teatrobreton.org/images/noticias/galnoticia_143_622015.jpg',
-       type: 'image/jpeg',
-       length: null } ],
+  "title" : "Venta de abonos Jueves Flamencos 2011",
+  "description" : "<strong>Fecha:</strong> 15/12/2010<br /><br />A partir del d�a 16 y hasta el 18 de diciembre se ponen a la venra los abonos completos para el Ciclo Jueves Flamenco en horario de 11:00 a 14:00.",
+  "summary" : null,
+  "date" : null,
+  "pubdate" : null,
+  "pubDate" : null,
+  "link" : "http://www.teatrobreton.org/ver_noticia.asp?noticia=1",
+  "guid" : "http://www.teatrobreton.org/ver_noticia.asp?noticia=1",
+  "author" : null,
+  "comments" : null,
+  "origlink" : null,
+  "image" : {
+
+  },
+  "source" : {
+
+  },
+  "categories" : [ ],
+  "enclosures" : [
+    {
+      "url" : "http://www.teatrobreton.org/images/noticias/blank.jpg",
+      "type" : "image/jpeg",
+      "length" : null
+    }
+  ],
+  "feedMeta" : ObjectId("54d4da39cb58d6a22c777742"),
+  "feedLink" : "http://www.teatrobreton.org/rss_noticias.asp",
+  "_id" : ObjectId("54d5df4465e0a8c74ca4d5f0")
 }
+
+// Find pus's (the above) site (metaData).
+db.site.findOne({_id: pus.feedMeta})
