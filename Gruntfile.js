@@ -6,6 +6,9 @@ module.exports = function(grunt) {
       },
       feeds: {
         src: 'lib/feeds.js'
+      },
+      server: {
+        src: 'lib/server.js'
       }
     },
     jshint: {
@@ -54,6 +57,7 @@ module.exports = function(grunt) {
   grunt.registerTask('sites', ['execute:meta_feeds']);
   grunt.registerTask('meta', ['execute:meta_feeds']);
   grunt.registerTask('feeds', ['execute:feeds']);
+  grunt.registerTask('server', ['execute:server']);
   grunt.registerTask('test', ['jshint']);
   grunt.registerTask('default', ['test']);
 };

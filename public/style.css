@@ -1,0 +1,17 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font: 13px Helvetica, Arial; }
+#userList { background: #000; position: fixed; top: 0; right: 0; width: 10%; color: #0bb; }
+#userList ul { list-style-type: none; margin: 0; padding: 3px; }
+#userList li { padding: 5px 10px; }
+#mForm { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+#mForm input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+#mForm button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+#lForm { background: #000; color: #0bb; padding: 3px; position: fixed; top: 0; width: 100%; }
+#lForm label { border: 0; padding: 10px; width: 9%; }
+#lForm input { border: 0; padding: 10px; width: 80%; }
+#lForm button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+#messages { list-style-type: none; margin: 0; padding: 0; }
+#messages li { padding: 5px 10px; }
+#messages li:nth-child(odd) { background: #eee; }
+#misc { list-style-type: none; margin: 10; padding: 0; background: #555; color: #0bb; }
+#misc li { padding: 5px 10px; }
