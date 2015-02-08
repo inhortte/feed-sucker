@@ -1,26 +1,30 @@
 {
   "name": "feed-sucker",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A mustelid is in your trousers",
   "author": "Bobbus Mustelidus",
+  "homepage": "https://github.com/inhortte/feed-sucker",
+  "bugs": "https://github.com/inhortte/feed-sucker/issues",
   "contributors": [
     {
       "name": "Bobbus Mustelidus",
       "email": "inhortte@gmail.com"
     }
   ],
-  "main": "lib/.js",
+  "main": "lib/server.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/inhortte/feed-sucker.git"
   },
-  "license": "MIT",
+  "license": "GPL-3.0+",
   "dependencies": {
-    "mongodb": "~2.0",
+    "async": "*",
+    "express": "^4.11.2",
     "feedparser": "*",
-    "request": "*",
+    "mongodb": "~2.0",
     "ramda": "*",
-    "async": "*"
+    "request": "*",
+    "socket.io": "^1.3.3"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
@@ -31,5 +35,6 @@
     "grunt-mocha-test": "^0.12.7",
     "mocha": "^2.1.0",
     "chai": "*"
-  }
+  },
+  "private": true
 }
