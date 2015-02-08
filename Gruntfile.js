@@ -6,6 +6,9 @@ module.exports = function(grunt) {
       },
       feeds: {
         src: 'lib/feeds.js'
+      },
+      server: {
+        src: 'lib/server.js'
       }
     },
     jshint: {
@@ -17,6 +20,9 @@ module.exports = function(grunt) {
       },
       lib: {
         src: ['lib/**/*.js']
+      },
+      static: {
+        src: ['public/**/*.js']
       },
       test: {
         src: ['test/**/*.js']
@@ -30,6 +36,10 @@ module.exports = function(grunt) {
       lib: {
         files: '<%= jshint.lib.src %>',
         tasks: ['jshint:lib']
+      },
+      lib: {
+        files: '<%= jshint.lib.src %>',
+        tasks: ['jshint:test']
       },
       test: {
         files: '<%= jshint.test.src %>',
@@ -47,6 +57,7 @@ module.exports = function(grunt) {
   grunt.registerTask('sites', ['execute:meta_feeds']);
   grunt.registerTask('meta', ['execute:meta_feeds']);
   grunt.registerTask('feeds', ['execute:feeds']);
+  grunt.registerTask('server', ['execute:server']);
   grunt.registerTask('test', ['jshint']);
   grunt.registerTask('default', ['test']);
 };
